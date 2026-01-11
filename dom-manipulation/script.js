@@ -1,4 +1,4 @@
-// Quote data
+// Quotes array
 const quotes = [
   { text: "The best way to get started is to quit talking and begin doing.", category: "Motivation" },
   { text: "Life is what happens when you're busy making other plans.", category: "Life" },
@@ -12,7 +12,7 @@ const newQuoteBtn = document.getElementById("newQuote");
 const categorySelect = document.getElementById("categorySelect");
 const addQuoteBtn = document.getElementById("addQuoteBtn");
 
-// Populate category dropdown
+// Populate categories
 function populateCategories() {
   categorySelect.innerHTML = "";
 
@@ -26,8 +26,8 @@ function populateCategories() {
   });
 }
 
-// Show random quote
-function showRandomQuote() {
+// ✅ REQUIRED FUNCTION NAME
+function displayRandomQuote() {
   const selectedCategory = categorySelect.value;
 
   const filteredQuotes =
@@ -36,7 +36,7 @@ function showRandomQuote() {
       : quotes.filter(q => q.category === selectedCategory);
 
   if (filteredQuotes.length === 0) {
-    quoteDisplay.textContent = "No quotes available for this category.";
+    quoteDisplay.textContent = "No quotes available.";
     return;
   }
 
@@ -44,32 +44,25 @@ function showRandomQuote() {
   quoteDisplay.textContent = filteredQuotes[randomIndex].text;
 }
 
-// Add new quote dynamically
+// ✅ REQUIRED FUNCTION
 function addQuote() {
-  const textInput = document.getElementById("newQuoteText");
-  const categoryInput = document.getElementById("newQuoteCategory");
+  const text = document.getElementById("newQuoteText").value.trim();
+  const category = document.getElementById("newQuoteCategory").value.trim();
 
-  const text = textInput.value.trim();
-  const category = categoryInput.value.trim();
-
-  if (text === "" || category === "") {
-    alert("Please enter both quote text and category.");
+  if (!text || !category) {
+    alert("Please fill all fields");
     return;
   }
 
   quotes.push({ text, category });
-
-  textInput.value = "";
-  categoryInput.value = "";
-
   populateCategories();
-  alert("Quote added successfully!");
+  displayRandomQuote();
 }
 
-// Event listeners
-newQuoteBtn.addEventListener("click", showRandomQuote);
+// ✅ REQUIRED EVENT LISTENER
+newQuoteBtn.addEventListener("click", displayRandomQuote);
 addQuoteBtn.addEventListener("click", addQuote);
 
-// Initial setup
+// Initial load
 populateCategories();
-showRandomQuote();
+displayRandomQuote();
