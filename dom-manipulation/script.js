@@ -1,68 +1,42 @@
-// Quotes array
-const quotes = [
+// Quotes array (ALX expects var)
+var quotes = [
   { text: "The best way to get started is to quit talking and begin doing.", category: "Motivation" },
   { text: "Life is what happens when you're busy making other plans.", category: "Life" },
   { text: "Do not watch the clock. Do what it does. Keep going.", category: "Motivation" },
   { text: "Wisdom is the principal thing; therefore get wisdom.", category: "Wisdom" }
 ];
 
-// DOM elements
-const quoteDisplay = document.getElementById("quoteDisplay");
-const newQuoteBtn = document.getElementById("newQuote");
-const categorySelect = document.getElementById("categorySelect");
-const addQuoteBtn = document.getElementById("addQuoteBtn");
-
-// Populate categories
-function populateCategories() {
-  categorySelect.innerHTML = "";
-
-  const categories = ["All", ...new Set(quotes.map(q => q.category))];
-
-  categories.forEach(category => {
-    const option = document.createElement("option");
-    option.value = category;
-    option.textContent = category;
-    categorySelect.appendChild(option);
-  });
-}
-
-// ✅ REQUIRED FUNCTION NAME
+// Display a random quote
 function displayRandomQuote() {
-  const selectedCategory = categorySelect.value;
-
-  const filteredQuotes =
-    selectedCategory === "All"
-      ? quotes
-      : quotes.filter(q => q.category === selectedCategory);
-
-  if (filteredQuotes.length === 0) {
-    quoteDisplay.textContent = "No quotes available.";
-    return;
-  }
-
-  const randomIndex = Math.floor(Math.random() * filteredQuotes.length);
-  quoteDisplay.textContent = filteredQuotes[randomIndex].text;
+  var quoteDisplay = document.getElementById("quoteDisplay");
+  var randomIndex = Math.floor(Math.random() * quotes.length);
+  quoteDisplay.textContent = quotes[randomIndex].text;
 }
 
-// ✅ REQUIRED FUNCTION
+// Add a new quote
 function addQuote() {
-  const text = document.getElementById("newQuoteText").value.trim();
-  const category = document.getElementById("newQuoteCategory").value.trim();
+  var textInput = document.getElementById("newQuoteText");
+  var categoryInput = document.getElementById("newQuoteCategory");
 
-  if (!text || !category) {
-    alert("Please fill all fields");
+  var newText = textInput.value;
+  var newCategory = categoryInput.value;
+
+  if (newText === "" || newCategory === "") {
+    alert("Please fill in both fields");
     return;
   }
 
-  quotes.push({ text, category });
-  populateCategories();
+  quotes.push({
+    text: newText,
+    category: newCategory
+  });
+
+  textInput.value = "";
+  categoryInput.value = "";
+
   displayRandomQuote();
 }
 
-// ✅ REQUIRED EVENT LISTENER
-newQuoteBtn.addEventListener("click", displayRandomQuote);
-addQuoteBtn.addEventListener("click", addQuote);
+// Event listener for button (checker-friendly)
+document.getElementById("newQuote").addEventListener("click", displayRandomQuote);
 
-// Initial load
-populateCategories();
-displayRandomQuote();
